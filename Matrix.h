@@ -1,5 +1,6 @@
 #ifndef MATRIX_MATRIX_H
 #define MATRIX_MATRIX_H
+
 #include "MatrixRow.h"
 
 template <typename T, T default_val>
@@ -14,9 +15,9 @@ public:
     }
 
     MatrixRow<T, default_val>& operator[](unsigned int right_index ){
-        for(auto it =rows_.begin(); it < rows_.end(); it++){
-            if (it->is_same_index(right_index)){
-                return (*it);
+        for(auto row : rows_){
+            if (row.is_same_index(right_index)){
+                return row;
             }
         }
         MatrixRow<T, default_val> new_row(right_index);

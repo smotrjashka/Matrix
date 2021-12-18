@@ -11,15 +11,20 @@ struct MatrixRow{
     };
 
     MatrixCell<T, default_val>& operator[](unsigned int left_index){
-        for(auto it = cells_.begin(); it < cells_.end(); it++){
-            if (it->is_same_index(left_index)){
-                return (*it);
+        for(auto cell : cells_){
+            if (cell.is_same_index(left_index)){
+                return cell;
             }
         }
         MatrixCell<T, default_val> new_cell(left_index);
         cells_.insert(new_cell);
         return new_cell;
     };
+
+    bool is_same_index(unsigned int index){
+        return row_number_== index;
+    };
+
 
 private:
     unsigned int row_number_;
