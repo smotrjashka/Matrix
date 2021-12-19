@@ -37,6 +37,14 @@ struct MatrixCell{
         return position_in_row_<cell.position_in_row_;
     };
 
+    T Value(){
+        return value_;
+    };
+
+    unsigned int Index(){
+        return position_in_row_;
+    };
+
 protected:
     unsigned int position_in_row_;
     T value_;
