@@ -21,10 +21,13 @@ struct MatrixRow{
         return new_cell;
     };
 
+    bool operator<(const MatrixRow<T, default_val> row) const{
+      return row_number_<row.row_number_;
+    };
+
     bool is_same_index(unsigned int index){
         return row_number_== index;
     };
-
 
 private:
     unsigned int row_number_;

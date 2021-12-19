@@ -16,6 +16,11 @@ struct MatrixCell{
         value_ = matrixCell.value_;
     };
 
+    MatrixCell(const MatrixCell<T, default_val>& matrixCell){
+        position_in_row_ = matrixCell.position_in_row_;
+        value_ = matrixCell.value_;
+    };
+
     bool is_same_index(unsigned int index){
         return position_in_row_ == index;
     };
@@ -27,6 +32,10 @@ struct MatrixCell{
     bool operator==(T value){
         return value==value_;
     }
+
+    bool operator<(const MatrixCell<T, default_val> cell) const {
+        return position_in_row_<cell.position_in_row_;
+    };
 
 protected:
     unsigned int position_in_row_;
