@@ -43,6 +43,13 @@ public:
         // Prefix increment
         Iterator& operator++() {
             //TODO
+         //   if(==(GetLastRowNumber()))
+         if(NextCellPointer(std::get<1>(*m_ptr_))==GetEndCellPointer()){
+             MatrixRow<T, default_val>* row_ptr = NextRowPointer(std::get<0>(*m_ptr_));
+             int row_number = row_ptr->RowNumber();
+
+             m_ptr_ = ;
+         }
             m_ptr_ = ;
             return *this; }
 
@@ -64,15 +71,30 @@ public:
         int row_number = (*it)->RowNumber();
         MatrixCell<T, default_val>* first_cell_ptr = (*it)->get_first_cell();
         return Iterator(&(std::make_tuple<int, int, T>(row_number, first_cell_ptr->Index(), first_cell_ptr->Value())));
-    }
+    };
 
     Iterator end()   {
         auto it = rows_.end();
         int row_number = (*it)->RowNumber();
         MatrixCell<T, default_val>* end_cell_ptr = (*it)->get_last_cell();
         return Iterator(&(std::make_tuple<int, int, T>(row_number, end_cell_ptr->Index(), end_cell_ptr->Value())));
-    }
+    };
 
+    int GetLastRowNumber(){
+        return rows_.end()->RowNumber();
+    };
+
+    MatrixRow<T, default_val>* GetEndRowPointer(){
+        return (*rows_.end());
+    };
+
+    MatrixRow<T, default_val>* NextRowPointer(int current_row_number){
+        for(auto it = rows_.begin(); it < rows_.end(); it++){
+            if ((*it)->RowNumber()==current_row_number){
+                return *(++it);
+            }
+        }
+    };
 
 private:
     // if we speak about infinite Matrix maybe long will be better???
