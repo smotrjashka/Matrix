@@ -42,16 +42,27 @@ public:
 
         // Prefix increment
         Iterator& operator++() {
-            //TODO
-         //   if(==(GetLastRowNumber()))
-         if(NextCellPointer(std::get<1>(*m_ptr_))==GetEndCellPointer()){
-             MatrixRow<T, default_val>* row_ptr = NextRowPointer(std::get<0>(*m_ptr_));
-             int row_number = row_ptr->RowNumber();
+            pointer current = m_ptr_;
 
-             m_ptr_ = ;
-         }
-            m_ptr_ = ;
-            return *this; }
+            int x;
+            int y;
+            int v;
+            std::tie(x, y, v) = *current;
+
+            auto next_cell = get_next_cell_ptr_for_current_row(x, y);
+            if (next_cell == nullptr){
+                x = get_next_row_ptr(x)->RowNumber();
+                y = get_next_row_ptr(x)-> get_first_cell_ptr()->Index();
+                v = get_next_row_ptr(x)-> get_first_cell_ptr()->Value();
+
+            } else {
+                y = next_cell->Index();
+                v = next_cell->Value();
+
+            }
+
+            return Iterator(&(std::make_tuple<int, int, T>(x, y, v);
+        }
 
    /*     // Postfix increment
         Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }*/
@@ -65,35 +76,43 @@ public:
         pointer  m_ptr_;
         };
 
+        friend class Iterator;
 
     Iterator begin() {
         auto it = rows_.begin();
         int row_number = (*it)->RowNumber();
-        MatrixCell<T, default_val>* first_cell_ptr = (*it)->get_first_cell();
+        MatrixCell<T, default_val>* first_cell_ptr = (*it)->get_first_cell_ptr();
         return Iterator(&(std::make_tuple<int, int, T>(row_number, first_cell_ptr->Index(), first_cell_ptr->Value())));
     };
 
     Iterator end()   {
         auto it = rows_.end();
         int row_number = (*it)->RowNumber();
-        MatrixCell<T, default_val>* end_cell_ptr = (*it)->get_last_cell();
+        MatrixCell<T, default_val>* end_cell_ptr = (*it)->get_last_cell_ptr();
         return Iterator(&(std::make_tuple<int, int, T>(row_number, end_cell_ptr->Index(), end_cell_ptr->Value())));
     };
 
-    int GetLastRowNumber(){
-        return rows_.end()->RowNumber();
-    };
 
-    MatrixRow<T, default_val>* GetEndRowPointer(){
-        return (*rows_.end());
-    };
-
-    MatrixRow<T, default_val>* NextRowPointer(int current_row_number){
+    MatrixRow<T, default_val>* get_next_row_ptr(unsigned int current_row_number){
         for(auto it = rows_.begin(); it < rows_.end(); it++){
             if ((*it)->RowNumber()==current_row_number){
                 return *(++it);
             }
         }
+    };
+
+    MatrixCell<T, default_val>* get_next_cell_ptr_for_current_row(unsigned int current_row_number, unsigned int prev_cell_number){
+        for(auto it = rows_.begin(); it < rows_.end(); it++){
+            if ((*it)->RowNumber()==current_row_number){
+                MatrixCell<T, default_val>* next_cell_ptr = ((*it)->get_next_cell_ptr(prev_cell_number));
+                if (next_cell_ptr!=(*it)->get_last_cell_ptr()){
+                    return next_cell_ptr;
+                } else{
+                    return nullptr;
+                }
+            }
+        }
+        return nullptr;
     };
 
 private:

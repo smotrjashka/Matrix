@@ -37,22 +37,33 @@ struct MatrixRow{
         return cells_;
     };
 
-    MatrixCell<T, default_val>*  get_first_cell(){
+    MatrixCell<T, default_val>*  get_first_cell_ptr(){
         if (cells_.size() > 0) {
             return (*cells_.begin());
         } else
             return nullptr;
     };
 
-    MatrixCell<T, default_val>* get_last_cell(){
+    MatrixCell<T, default_val>* get_last_cell_ptr(){
         if (cells_.size() > 0) {
             return (*cells_.end());
         } else
             return nullptr;
     };
 
-    MatrixCell<T, default_val>* get_next_cell(){
-      //TODO
+    MatrixCell<T, default_val>* get_next_cell_ptr(MatrixCell<T, default_val>* prev_cell){
+        if (prev_cell!= nullptr){
+            return *(++(cells_.find(prev_cell));
+        }
+        return nullptr;
+    };
+
+    MatrixCell<T, default_val>* get_next_cell_ptr(unsigned int prev_cell_number){
+        for (auto cell_it = cells_.begin(); cell_it < cells_.end(); cell_it++) {
+            if ((*cell_it)->is_same_index(prev_cell_number)){
+                return *(cell_it++);
+            }
+        }
         return nullptr;
     };
 
