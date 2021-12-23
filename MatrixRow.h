@@ -12,11 +12,11 @@ struct MatrixRow{
 
     MatrixCell<T, default_val>& operator[](unsigned int left_index){
         for(auto cell : cells_){
-            if (cell.is_same_index(left_index)){
-                return cell;
+            if (cell->is_same_index(left_index)){
+                return *cell;
             }
         }
-        MatrixCell<T, default_val> new_cell_ptr = new MatrixCell<T, default_val>(left_index);
+        MatrixCell<T, default_val>* new_cell_ptr = new MatrixCell<T, default_val>(left_index);
         cells_.insert(new_cell_ptr);
         return *(new_cell_ptr);
     };
@@ -53,7 +53,7 @@ struct MatrixRow{
 
     MatrixCell<T, default_val>* get_next_cell_ptr(MatrixCell<T, default_val>* prev_cell){
         if (prev_cell!= nullptr){
-            return *(++(cells_.find(prev_cell));
+            return *(++(cells_.find(prev_cell)));
         }
         return nullptr;
     };

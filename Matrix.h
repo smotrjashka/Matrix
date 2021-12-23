@@ -17,8 +17,8 @@ public:
 
     MatrixRow<T, default_val>& operator[](unsigned int right_index ){
         for(auto row : rows_){
-            if (row.is_same_index(right_index)){
-                return row;
+            if (row->is_same_index(right_index)){
+                return *row;
             }
         }
         MatrixRow<T, default_val>* new_row_ptr = new MatrixRow<T, default_val>(right_index);
@@ -61,7 +61,7 @@ public:
 
             }
 
-            return Iterator(&(std::make_tuple<int, int, T>(x, y, v);
+            return Iterator(&(std::make_tuple<int, int, T>(x, y, v)));
         }
 
    /*     // Postfix increment
